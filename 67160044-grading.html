@@ -271,6 +271,14 @@
                             return "PASS";
                         }
                     }
+                    function saveToStorage(data) {
+                            // ดึงข้อมูลเก่าออกมา (ถ้าไม่มีให้เป็น [])
+                            let list = JSON.parse(localStorage.getItem("grades")) || [];
+                            // ใส่ข้อมูลใหม่เข้าไป
+                            list.push(data);
+                            // บันทึกกลับ
+                            localStorage.setItem("grades", JSON.stringify(list));
+                        }
                     
     </script>   
 </body>
