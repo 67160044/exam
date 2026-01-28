@@ -195,8 +195,8 @@
         </div>
 
         <div class="btn-group">
-            <button id="btn-calculate" onclick="handleCalculate()">Calculate</button>
-            <button id="btn-clear" onclick="handleClear()">Clear</button>
+            <button id="btn-calculate" >Calculate</button>
+            <button id="btn-clear" >Clear</button>
         </div>
 
         <div id="result-box">
@@ -363,6 +363,13 @@
                                     // (Optional) แถม: ย้ายเคอร์เซอร์ไปรอที่ช่อง "ชื่อ" เพื่อให้เริ่มกรอกใหม่ได้เลย
                                     document.getElementById("stdName").focus();
                                 }
+                                function renderRowHelper(item) {
+                                        let tbody = document.querySelector("#resultTable tbody");
+                                        if (tbody.innerHTML.includes("No data.")) tbody.innerHTML = "";
+
+                                        let row = tbody.insertRow();
+                                        row.innerHTML = `<td>${item.name}</td><td>${item.subject}</td><td>${item.score}</td><td>${item.grade}</td><td class="${item.statusClass}">${item.status}</td>`;
+                                    }
                                 window.addEventListener("DOMContentLoaded", () => {
                                         // 1. Load data
                                         const students = loadFromStorage();
@@ -394,7 +401,11 @@
                                             // ซ่อน result box ดีกว่าถ้าไม่มีข้อมูล (หรือจะเปิดไว้ก็ได้แล้วแต่ดีไซน์)
                                             // resultBox.style.display = "block"; 
                                         }
+                                    document.getElementById("btn-calculate").addEventListener("click", handleCalculate);
+                                    document.getElementById("btn-clear").addEventListener("click", handleClear);
+                                
                                     });
+                                    
 
     </script>   
 </body>
