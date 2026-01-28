@@ -248,7 +248,23 @@
 
                     return totalScore;
                 }
-            
+            function getGrade(score) {
+                    // แปลงค่าเป็นตัวเลขเพื่อให้แน่ใจ (เผื่อส่งมาเป็น string)
+                    let s = Number(score);
+
+                    if (s >= 80) {
+                        return "A";
+                    } else if (s >= 70) {
+                        return "B";
+                    } else if (s >= 60) {
+                        return "C";
+                    } else if (s >= 50) {
+                        return "D";
+                    } else {
+                        return "F";
+                    }
+                }
+                
     </script>   
 </body>
 
