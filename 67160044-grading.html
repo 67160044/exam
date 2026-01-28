@@ -167,7 +167,7 @@
     </style>
 </head>
 
-<body onload="loadData()">
+<body>
 
     <div class="container">
         <h2>Grade Calculator</h2>
@@ -214,7 +214,31 @@
                 <tbody></tbody>
             </table>
         </div>
-    </div>   
+    </div>
+    <script>
+        function validateScore(score) {
+                // 1. เช็คค่าว่าง (Empty String)
+                // ต้องดักก่อน เพราะ Number("") จะได้ 0 ซึ่งอาจจะทำให้ผ่านเงื่อนไข >= 0 ได้
+                if (score === "") {
+                    return false;
+                }
+
+                // 2. แปลงเป็นตัวเลข
+                let num = Number(score);
+
+                // 3. ตรวจสอบเงื่อนไขพร้อมกัน
+                // !isNaN(num)  -> ต้องไม่ใช่ NaN (เช่น "abc" แปลงแล้วได้ NaN)
+                // num >= 0     -> ต้องมากกว่าหรือเท่ากับ 0
+                // num <= 100   -> ต้องน้อยกว่าหรือเท่ากับ 100
+                if (!isNaN(num) && num >= 0 && num <= 100) {
+                    return true;
+                }
+
+                // ถ้าไม่ผ่านเงื่อนไขข้างบนเลย ให้ return false
+                return false;
+            }
+            
+    </script>   
 </body>
 
 </html>
