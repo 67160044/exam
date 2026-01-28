@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade Calculator</title>
+    <style>
+        /* --- 1. Flexbox Layout & General --- */
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+
+            /* CSS ข้อ 1: Container หลักเป็น Flex column */
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            /* ระยะห่างระหว่างแต่ละก้อน */
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 0;
+            color: #333;
+        }
+
+        /* CSS ข้อ 1: Input rows จัดด้วย Flexbox */
+        .input-row {
+            display: flex;
+            align-items: center;
+            /* จัดกึ่งกลางแนวตั้ง */
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .input-row label {
+            flex: 1;
+            /* label กินพื้นที่ 1 ส่วน */
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .input-wrapper {
+            flex: 2;
+            /* input กินพื้นที่ 2 ส่วน (กว้างกว่า label) */
+        }
+
+        /* --- 2. Input Styling --- */
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            /* CSS ข้อ 2: Border, Padding, Radius */
+            border: 2px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: 0.3s;
+            /* ให้เวลาเปลี่ยนสีนุ่มนวล */
+        }
+
+        /* CSS ข้อ 2: Focus State เปลี่ยนสี */
+        input:focus {
+            background-color: #f0f8ff;
+            /* สีฟ้าอ่อนจางๆ */
+            border-color: #007bff;
+            /* สีเส้นขอบเปลี่ยนเป็นน้ำเงิน */
+            outline: none;
+        }
+
+        /* --- 3. Button Styling --- */
+        .btn-group {
+            /* CSS ข้อ 1: จัดปุ่มชิดซ้าย-ขวา (Space Between) */
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* CSS ข้อ 3: ปุ่ม Calculate สีน้ำเงิน */
+        #btn-calculate {
+            background-color: #007bff;
+            /* สีน้ำเงิน */
+            color: white;
+        }
+
+        #btn-calculate:hover {
+            background-color: #0056b3;
+        }
+
+        /* CSS ข้อ 3: ปุ่ม Clear สีเทา */
+        #btn-clear {
+            background-color: #6c757d;
+            /* สีเทา */
+            color: white;
+        }
+
+        #btn-clear:hover {
+            background-color: #5a6268;
+        }
+
+        /* --- 4. Result Box --- */
+        #result-box {
+            /* CSS ข้อ 4: ซ่อนตั้งแต่เริ่ม */
+            display: none;
+
+            /* CSS ข้อ 4: พื้นหลังอ่อน, Border-left เข้ม, Padding, Radius */
+            background-color: #e8f5e9;
+            /* พื้นหลังเขียวอ่อน */
+            border-left: 4px solid #2e7d32;
+            /* เส้นซ้ายเขียวเข้ม */
+            padding: 15px;
+            border-radius: 8px;
+
+            margin-top: 20px;
+        }
+
+        /* ตกแต่งตารางเพิ่มเติมนิดหน่อยให้อ่านง่ายใน Result Box */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: white;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #2e7d32;
+            color: white;
+        }
+
+        .pass {
+            color: green;
+            font-weight: bold;
+        }
+
+        .fail {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body onload="loadData()">
+
+    <div class="container">
+        <h2>Grade Calculator</h2>
+
+        <div class="input-row">
+            <label>ชื่อนักเรียน:</label>
+            <div class="input-wrapper"><input type="text" id="stdName" placeholder="ชื่อนักเรียน"></div>
+        </div>
+        <div class="input-row">
+            <label>รายวิชา:</label>
+            <div class="input-wrapper"><input type="text" id="subject" placeholder="รายวิชา"></div>
+        </div>
+
+        <div class="input-row">
+            <label>Midterm (20%):</label>
+            <div class="input-wrapper"><input type="number" id="scoreMid" placeholder="0-100"></div>
+        </div>
+        <div class="input-row">
+            <label>Final (50%):</label>
+            <div class="input-wrapper"><input type="number" id="scoreFin" placeholder="0-100"></div>
+        </div>
+        <div class="input-row">
+            <label>Assignment (30%):</label>
+            <div class="input-wrapper"><input type="number" id="scoreAss" placeholder="0-100"></div>
+        </div>
+
+        <div class="btn-group">
+            <button id="btn-calculate" onclick="calculateGrade()">Calculate</button>
+            <button id="btn-clear" onclick="clearForm()">Clear</button>
+        </div>
+
+        <div id="result-box">
+            <h3 style="margin-top:0;">ผลลัพธ์การเรียน</h3>
+            <table id="resultTable">
+                <thead>
+                    <tr>
+                        <th>ชื่อ</th>
+                        <th>วิชา</th>
+                        <th>รวม</th>
+                        <th>เกรด</th>
+                        <th>สถานะ</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>   
+</body>
+
+</html>
