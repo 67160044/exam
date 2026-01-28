@@ -271,27 +271,29 @@
                             return "PASS";
                         }
                     }
-                    function saveToStorage(data) {
-                            // ดึงข้อมูลเก่าออกมา (ถ้าไม่มีให้เป็น [])
-                            let list = JSON.parse(localStorage.getItem("grades")) || [];
-                            // ใส่ข้อมูลใหม่เข้าไป
-                            list.push(data);
-                            // บันทึกกลับ
-                            localStorage.setItem("grades", JSON.stringify(list));
-                        }
-                    function loadFromStorage() {
-                            // 1. ดึงข้อมูลจาก localStorage
-                            let jsonStr = localStorage.getItem('studentData');
+                    // ต้องใช้ Key ชื่อเดียวกันเป๊ะๆ ในที่นี้คือ "studentData"
 
-                            // 2. ตรวจสอบว่ามีข้อมูลไหม
+                        function loadFromStorage() {
+                            let jsonStr = localStorage.getItem('studentData'); // 1. ชื่อ Key ต้องตรง
                             if (jsonStr) {
-                                // ถ้ามี -> แปลงเป็น Array แล้วส่งกลับ
-                                return JSON.parse(jsonStr);
+                                return JSON.parse(jsonStr); // 2. ต้องแปลง String เป็น Array
                             } else {
-                                // ถ้าไม่มี -> ส่งค่า null กลับ
                                 return null;
                             }
                         }
+
+                        function saveToStorage(data) {
+                            let list = loadFromStorage(); // 3. โหลดของเก่ามาก่อน
+
+                            if (list === null) {
+                                list = []; // 4. ถ้าไม่มีของเก่า ให้สร้าง Array ว่าง
+                            }
+
+                            list.push(data); // 5. ยัดข้อมูลใส่ต่อท้าย (ห้ามใช้ = data เฉยๆ)
+
+                            localStorage.setItem("studentData", JSON.stringify(list)); // 6. ชื่อ Key ต้องตรง
+                        }
+
     </script>   
 </body>
 
