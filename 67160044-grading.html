@@ -279,7 +279,19 @@
                             // บันทึกกลับ
                             localStorage.setItem("grades", JSON.stringify(list));
                         }
-                    
+                    function loadFromStorage() {
+                            // 1. ดึงข้อมูลจาก localStorage
+                            let jsonStr = localStorage.getItem('studentData');
+
+                            // 2. ตรวจสอบว่ามีข้อมูลไหม
+                            if (jsonStr) {
+                                // ถ้ามี -> แปลงเป็น Array แล้วส่งกลับ
+                                return JSON.parse(jsonStr);
+                            } else {
+                                // ถ้าไม่มี -> ส่งค่า null กลับ
+                                return null;
+                            }
+                        }
     </script>   
 </body>
 
