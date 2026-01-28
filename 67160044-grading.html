@@ -196,7 +196,7 @@
 
         <div class="btn-group">
             <button id="btn-calculate" onclick="handleCalculate()">Calculate</button>
-            <button id="btn-clear" onclick="clearForm()">Clear</button>
+            <button id="btn-clear" onclick="handleClear()">Clear</button>
         </div>
 
         <div id="result-box">
@@ -349,7 +349,20 @@
                                 // 9. บันทึกลง Storage (เรียกใช้ saveToStorage ที่คุณเขียนไว้)
                                 saveToStorage(data);
                             }
-                            
+                            function handleClear() {
+                                    // 1. Clear ทุก input fields
+                                    document.getElementById("stdName").value = "";
+                                    document.getElementById("subject").value = "";
+                                    document.getElementById("scoreMid").value = "";
+                                    document.getElementById("scoreFin").value = "";
+                                    document.getElementById("scoreAss").value = "";
+
+                                    // 2. ซ่อน result section
+                                    document.getElementById("result-box").style.display = "none";
+
+                                    // (Optional) แถม: ย้ายเคอร์เซอร์ไปรอที่ช่อง "ชื่อ" เพื่อให้เริ่มกรอกใหม่ได้เลย
+                                    document.getElementById("stdName").focus();
+                                }
 
     </script>   
 </body>
