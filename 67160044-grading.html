@@ -340,11 +340,10 @@
                                     statusClass: (status === "PASS") ? "pass" : "fail" // เตรียม class สำหรับ CSS
                                 };
 
-                                // 8. แสดงผลที่หน้าจอ (ส่วนนี้ต้องมีฟังก์ชัน renderRow และ showResultBox รองรับ)
-                                if (typeof renderRow === "function") {
-                                    renderRow(data);
-                                    document.getElementById("result-box").style.display = "block";
-                                }
+                               renderRowHelper(data);
+
+                            // สั่งเปิดกล่อง Result ให้มองเห็น (เผื่อเดิมมันซ่อนอยู่)
+                            document.getElementById("result-box").style.display = "block";
 
                                 // 9. บันทึกลง Storage (เรียกใช้ saveToStorage ที่คุณเขียนไว้)
                                 saveToStorage(data);
