@@ -363,6 +363,38 @@
                                     // (Optional) แถม: ย้ายเคอร์เซอร์ไปรอที่ช่อง "ชื่อ" เพื่อให้เริ่มกรอกใหม่ได้เลย
                                     document.getElementById("stdName").focus();
                                 }
+                                window.addEventListener("DOMContentLoaded", () => {
+                                        // 1. Load data
+                                        const students = loadFromStorage();
+                                        const tbody = document.querySelector("#resultTable tbody");
+                                        const resultBox = document.getElementById("result-box");
+
+                                        // 2. ถ้ามีข้อมูล ให้แสดงด้วย .map()
+                                        if (students && students.length > 0) {
+                                            const rows = students.map(student => {
+                                                // ใช้ค่า statusClass ที่ save ไว้ หรือคำนวณใหม่ถ้าไม่มี
+                                                const sClass = student.statusClass || ((student.status === "PASS") ? "pass" : "fail");
+
+                                                return `
+                        <tr>
+                            <td>${student.name}</td>
+                            <td>${student.subject}</td>
+                            <td>${student.score}</td>
+                            <td>${student.grade}</td>
+                            <td class="${sClass}">${student.status}</td>
+                        </tr>
+                    `;
+                                            }).join("");
+
+                                            tbody.innerHTML = rows;
+                                            resultBox.style.display = "block";
+                                        } else {
+                                            // 3. ถ้าไม่มี -> แสดง No data
+                                            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:gray;">No data.</td></tr>`;
+                                            // ซ่อน result box ดีกว่าถ้าไม่มีข้อมูล (หรือจะเปิดไว้ก็ได้แล้วแต่ดีไซน์)
+                                            // resultBox.style.display = "block"; 
+                                        }
+                                    });
 
     </script>   
 </body>
