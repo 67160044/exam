@@ -237,6 +237,17 @@
                 // ถ้าไม่ผ่านเงื่อนไขข้างบนเลย ให้ return false
                 return false;
             }
+            function calculateScore(midterm, final, assignment) {
+                    // แปลงค่า input เป็นตัวเลขก่อนคำนวณ (เพื่อความชัวร์)
+                    let m = Number(midterm);
+                    let f = Number(final);
+                    let a = Number(assignment);
+
+                    // คำนวณตามสูตร: (Midterm × 0.2) + (Final × 0.5) + (Assignment × 0.3)
+                    let totalScore = (m * 0.20) + (f * 0.50) + (a * 0.30);
+
+                    return totalScore;
+                }
             
     </script>   
 </body>
