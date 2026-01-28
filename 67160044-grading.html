@@ -197,6 +197,7 @@
         <div class="btn-group">
             <button id="btn-calculate" >Calculate</button>
             <button id="btn-clear" >Clear</button>
+            <button onclick="clearAllData()" style="background-color: #dc3545; color: white;">ล้างประวัติทั้งหมด</button>
         </div>
 
         <div id="result-box">
@@ -348,6 +349,16 @@
                                 // 9. บันทึกลง Storage (เรียกใช้ saveToStorage ที่คุณเขียนไว้)
                                 saveToStorage(data);
                             }
+                            function clearAllData() {
+                                    // ถามยืนยันก่อนลบ เพื่อป้องกันการกดพลาด
+                                    if (confirm("คุณต้องการลบประวัติผลการเรียนทั้งหมดหรือไม่?")) {
+                                        // 1. ลบข้อมูลใน Storage
+                                        localStorage.removeItem("studentData");
+
+                                        // 2. รีเฟรชหน้าจอเพื่อเริ่มใหม่
+                                        location.reload();
+                                    }
+                                }
                             function handleClear() {
                                     // 1. Clear ทุก input fields
                                     document.getElementById("stdName").value = "";
