@@ -195,7 +195,7 @@
         </div>
 
         <div class="btn-group">
-            <button id="btn-calculate" onclick="calculateGrade()">Calculate</button>
+            <button id="btn-calculate" onclick="handleCalculate()">Calculate</button>
             <button id="btn-clear" onclick="clearForm()">Clear</button>
         </div>
 
@@ -293,6 +293,63 @@
 
                             localStorage.setItem("studentData", JSON.stringify(list)); // 6. ชื่อ Key ต้องตรง
                         }
+                        function handleCalculate() {
+                                // 1. รับค่าจาก Input (รับมาเป็น String ก่อนเพื่อส่งไป validate)
+                                let name = document.getElementById("stdName").value.trim();
+                                let subject = document.getElementById("subject").value.trim();
+                                let midStr = document.getElementById("scoreMid").value;
+                                let finStr = document.getElementById("scoreFin").value;
+                                let assStr = document.getElementById("scoreAss").value;
+
+                                // 2. Validate: ชื่อและวิชา (ต้องไม่ว่าง)
+                                if (name === "" || subject === "") {
+                                    alert("Please enter student name and subject");
+                                    return;
+                                }
+
+                                // 3. Validate: คะแนน (เรียกใช้ validateScore ที่คุณเขียนไว้)
+                                // ฟังก์ชัน validateScore เช็คทั้ง "ค่าว่าง", "ไม่ใช่ตัวเลข", และ "ช่วง 0-100" ให้แล้ว
+                                if (!validateScore(midStr) || !validateScore(finStr) || !validateScore(assStr)) {
+                                    alert("Please enter valid numbers between 0-100");
+                                    return;
+                                }
+
+                                // 4. แปลงเป็นตัวเลขจริง (เพื่อใช้คำนวณและบันทึก)
+                                let m = Number(midStr);
+                                let f = Number(finStr);
+                                let a = Number(assStr);
+
+                                // 5. คำนวณคะแนนรวม (เรียกใช้ calculateScore)
+                                let total = calculateScore(m, f, a);
+
+                                // 6. หาเกรดและสถานะ (เรียกใช้ getGrade และ getStatus)
+                                let grade = getGrade(total);
+                                let status = getStatus(grade);
+
+                                // 7. เตรียมข้อมูล Object (JSON)
+                                // เพิ่ม field midterm, final, assignment เพื่อให้ข้อมูลครบถ้วน
+                                let data = {
+                                    name: name,
+                                    subject: subject,
+                                    midterm: m,
+                                    final: f,
+                                    assignment: a,
+                                    score: Number(total.toFixed(2)), // ปัดทศนิยม 2 ตำแหน่งและแปลงกลับเป็น Number
+                                    grade: grade,
+                                    status: status,
+                                    statusClass: (status === "PASS") ? "pass" : "fail" // เตรียม class สำหรับ CSS
+                                };
+
+                                // 8. แสดงผลที่หน้าจอ (ส่วนนี้ต้องมีฟังก์ชัน renderRow และ showResultBox รองรับ)
+                                if (typeof renderRow === "function") {
+                                    renderRow(data);
+                                    document.getElementById("result-box").style.display = "block";
+                                }
+
+                                // 9. บันทึกลง Storage (เรียกใช้ saveToStorage ที่คุณเขียนไว้)
+                                saveToStorage(data);
+                            }
+                            
 
     </script>   
 </body>
